@@ -142,13 +142,43 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
-    },
+    hasMajorDiagonalConflictAt: function(input) {
+      var len = this.get('n');
+      var count = 0;
+      var startRow, startIndex;
 
+      if (input >= 0) {
+        startRow = input;
+        startIndex = 0;
+      } else {
+        startRow = 0;
+        startIndex = Math.abs(input);
+      }
+
+      // if input is -1, set startRow = 0, and start i from abs(input)
+
+      for (var i = startIndex; i < len - Math.abs(input); i++) {
+        if (this.get(startRow)[i] === 1) {
+          count++;
+        }
+        if (count > 1) {
+          return true;
+        }
+        startRow++;
+      } // else
+      return false;
+    },
+    // var bob = new Board([[1,0,1,0],[0,1,0,1],[1,0,1,0],[0,1,0,1]]);
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var len = this.get('n');
+
+      for (var i = -len + 2; i < len - 2; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      } // else
+      return false;
     },
 
 
