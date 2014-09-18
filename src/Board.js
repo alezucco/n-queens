@@ -195,7 +195,7 @@
       if (input >= 0) {
         startRow = input;
         startIndex = len - 1;
-        endIndex = len - input;
+        endIndex = input;
       } else {
         startRow = 0;
         startIndex = len - Math.abs(input) - 1;
@@ -205,6 +205,7 @@
       // if input is -1, set startRow = 0, and start i from abs(input)
 
       for (var i = startIndex; i >= endIndex; i--) {
+
         if (this.get(startRow)[i] === 1) {
           count++;
         }
