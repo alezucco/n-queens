@@ -168,7 +168,7 @@
       } // else
       return false;
     },
-    // var bob = new Board([[1,0,1,0],[0,1,0,1],[1,0,1,0],[0,1,0,1]]);
+    // var bob = new Board([[0,1,0,0],[1,0,0,0],[0,0,0,1],[0,0,1,0]]);
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var len = this.get('n');
@@ -187,13 +187,45 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(input) {
+      var len = this.get('n');
+      var count = 0;
+      var startRow, startIndex, endIndex;
+
+      if (input >= 0) {
+        startRow = input;
+        startIndex = len - 1;
+        endIndex = len - input;
+      } else {
+        startRow = 0;
+        startIndex = len - Math.abs(input) - 1;
+        endIndex = 0;
+      }
+
+      // if input is -1, set startRow = 0, and start i from abs(input)
+
+      for (var i = startIndex; i >= endIndex; i--) {
+        if (this.get(startRow)[i] === 1) {
+          count++;
+        }
+        if (count > 1) {
+          return true;
+        }
+        startRow++;
+      } // else
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var len = this.get('n');
+
+      for (var i = -len + 2; i < len - 2; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      } // else
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
