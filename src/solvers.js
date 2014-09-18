@@ -135,16 +135,37 @@ window.countNQueensSolutions = function(n) {
   };
 
   var recurse = function(row, col, state) {
-    // take the state and rebuild board
-    var board = unpack(state);
-    // toggle this row, col
-    board.togglePiece(row,col);
+    var hasNoConflicts = false;
+    // check against vertical restrictions
+    if (state.indexOf(col) < 0) {
+      // check against major diagonal restrictions
+      var hasMajorDiagonalConflicts = false;
+      for (var i = row; i >= 0; i--) {
+        if (state[row  - 1] !== undefined && col - i >= 0) {
+          if (state[row - i] === col - i) {
+            hasMajorDiagonalConflicts = true;
+            break;
+          }
+        }
+      }
+      if (!hasMajorDiagonalConflicts) {
+      // check against minor diagonal restrictions
+        var hasMinorDiagonalConflicts = false;
+        for (var i = row; i >= 0; i--) {
+          if (state[row  - 1] !== undefined && col + i >= 0) {
+            if (state[row - i] === col + i) {
+              hasMinorDiagonalConflicts = true;
+              break;
+            }
+          }
+        }
+        if (!hasMinorDiagonalConflicts) {
+          hasNoConflicts = true;
+        }
+      }
+    }
 
-    if (!board.hasAnyRowConflicts() &&
-     !board.hasAnyColConflicts() &&
-     !board.hasAnyMajorDiagonalConflicts() &&
-      !board.hasAnyMinorDiagonalConflicts()) {
-      // the index of state tracks the row, the number pushed is the col of the rook
+    if (hasNoConflicts) {
       state.push(col);
       if (row === n - 1) {
         solutionCount++;
