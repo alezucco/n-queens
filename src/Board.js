@@ -150,14 +150,16 @@
       if (input >= 0) {
         startRow = input;
         startIndex = 0;
+        endIndex=len - 1 - input;
       } else {
         startRow = 0;
         startIndex = Math.abs(input);
+        endIndex=len-1;
       }
 
       // if input is -1, set startRow = 0, and start i from abs(input)
 
-      for (var i = startIndex; i < len - Math.abs(input); i++) {
+      for (var i = startIndex; i <= endIndex; i++) {
         if (this.get(startRow)[i] === 1) {
           count++;
         }
