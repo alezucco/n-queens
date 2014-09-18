@@ -141,7 +141,7 @@ window.countNQueensSolutions = function(n) {
     // toggle this row, col
     board.togglePiece(row,col);
 
-    if (!board.hasAnyQueensConflicts()) {
+    if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts() && !board.hasAnyMajorDiagonalConflicts() && !board.hasAnyMinorDiagonalConflicts()) {
       // the index of state tracks the row, the number pushed is the col of the rook
       state.push(col);
       if (row === n - 1) {
@@ -164,6 +164,6 @@ window.countNQueensSolutions = function(n) {
     recurse(0,i,stateTracker)
   }
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutionCount));
   return solutionCount;
 };
