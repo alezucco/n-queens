@@ -117,7 +117,6 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
- var solutionCount = 0;
 
   var unpack = function(arr) {
     var len = n;
@@ -141,7 +140,10 @@ window.countNQueensSolutions = function(n) {
     // toggle this row, col
     board.togglePiece(row,col);
 
-    if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts() && !board.hasAnyMajorDiagonalConflicts() && !board.hasAnyMinorDiagonalConflicts()) {
+    if (!board.hasAnyRowConflicts() &&
+     !board.hasAnyColConflicts() &&
+     !board.hasAnyMajorDiagonalConflicts() &&
+      !board.hasAnyMinorDiagonalConflicts()) {
       // the index of state tracks the row, the number pushed is the col of the rook
       state.push(col);
       if (row === n - 1) {
@@ -158,10 +160,28 @@ window.countNQueensSolutions = function(n) {
       }
     }
   };
-
-  for (var i = 0; i < n; i++) {
+  
+  var solutionCount = 0;
+  // if even number
+  if (n % 2 === 0) {
+    // recurse half and double count
+    for (var i = 0; i < (n/2); i++) {
+      var stateTracker = [];
+      recurse(0,i,stateTracker);
+    }
+    solutionCount *= 2;
+  
+  // if odd number
+  } else {
+    // recurse the first half and double count
+    // recurse median index by itself and do not double count
+    for (var i = 0; i < Math.floor(n/2); i++) {
+      var stateTracker = [];
+      recurse(0,i,stateTracker);
+    }
+    solutionCount *= 2;
     var stateTracker = [];
-    recurse(0,i,stateTracker)
+    recurse(0,Math.ceil(n/2),stateTracker);
   }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutionCount));
