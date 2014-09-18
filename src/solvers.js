@@ -160,7 +160,7 @@ window.countNQueensSolutions = function(n) {
       }
     }
   };
-  
+
   var solutionCount = 0;
   // if even number
   if (n % 2 === 0) {
@@ -170,7 +170,7 @@ window.countNQueensSolutions = function(n) {
       recurse(0,i,stateTracker);
     }
     solutionCount *= 2;
-  
+
   // if odd number
   } else {
     // recurse the first half and double count
@@ -181,7 +181,7 @@ window.countNQueensSolutions = function(n) {
     }
     solutionCount *= 2;
     var stateTracker = [];
-    recurse(0,Math.ceil(n/2),stateTracker);
+    recurse(0,Math.floor(n/2),stateTracker);
   }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutionCount));
